@@ -1,0 +1,108 @@
+{% extends "dashboard/base.html" %}
+
+{% block titlepage %} Mixed Chart {% endblock %}
+
+
+
+{% block maincontent %}
+
+<div class="row">
+    <div class="container" >
+        <div class="row">
+            <div class="col-md-4" dir="ltr">
+                
+                <input type="button" value="update1" class="btn btn-success" onclick="updatedata1()">
+                <br>
+                <input type="button" value="update2" class="btn btn-danger" onclick="updatedata2()">
+                <br>
+                <input type="button" value="push" class="btn btn-default" onclick="pushlabel()">
+                <br>
+                <input type="button" value="pop" class="btn btn-primary" onclick="poplabel()">
+
+            </div>
+            <div class="col-md-4">
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <script>
+            const myResult = JSON.parse("{{result | escapejs}}")
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var mixedChart = new Chart(ctx, {
+            data: { 
+                datasets: [{
+                    type: 'bar',
+                    label: 'product 1',
+                    data: Object.values(myResult).map(v=>v[0]),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 1
+                },
+
+                {
+                    type: 'line',
+                    label: 'product 2',
+                    data: Object.values(myResult).map(v=>v[1]),
+                    backgroundColor: [
+                        'rgba(100, 200, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(74, 99, 132, 1)',
+                    ],
+                    borderWidth: 1
+                }
+
+            ],
+                labels: Object.keys(myResult), 
+
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // function updatedata1()
+        // {
+        //     mixedChart.data.datasets[1].data = [100,25,69,46,96,60,41,58,90, 58, 85, 36]
+        //     mixedChart.update()
+        // }
+
+        // function updatedata2()
+        // {
+        //     mixedChart.data.datasets[0].data = [25,56,336,4534,253,69,657,636,77, 53, 536, 7867]
+        //     mixedChart.update()
+        // }
+
+        // var mlist = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر' , 'مرداد' , 'شهریور' , 'مهر' , 'آبان' , 'آذر' , 'دی' , 'بهمن' , 'اسفند',]
+        // var counter = 0
+
+        // function pushlabel()
+        // {
+        //     mixedChart.data.labels.push(mlist[counter++]);
+        //     mixedChart.update();
+        // }
+
+        // function poplabel()
+        // {
+        //     mixedChart.data.labels.pop();
+        //     counter -=1
+        //     mixedChart.update();
+        // }
+
+        </script>
+ 
+           
+        </div>
+    </div>   
+</div>
+{% endblock %}
+
+
+
